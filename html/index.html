@@ -20,11 +20,23 @@
             padding: 10px;
             text-align: center;
         }
-        .auth-buttons {
+        .auth-box {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+        .auth-form {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
         .hide {
             display: none;
@@ -43,11 +55,18 @@
         <h1>User Authentication</h1>
     </div>
 
-    <div class="auth-buttons">
-        <calcite-panel>
-            <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
-            <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
-        </calcite-panel>
+    <div class="auth-box">
+        <form class="auth-form">
+            <h2>Login</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <div class="auth-buttons">
+                <calcite-button id="sign-in">Sign in</calcite-button>
+                <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
+            </div>
+        </form>
     </div>
 
     <script>
