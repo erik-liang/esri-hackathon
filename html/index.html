@@ -26,41 +26,49 @@
             align-items: center;
             height: 100vh;
         }
+        .auth-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Added to center the content vertically */
+        }
         .auth-form {
             width: 300px;
             padding: 20px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Added to center the form content horizontally */
         }
         .auth-buttons {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             margin-top: 20px;
         }
         .hide {
             display: none;
         }
-    </style>
+        </style>
 
-    <!-- ArcGIS REST JS used for user authentication. -->
-    <script src="https://unpkg.com/@esri/arcgis-rest-request@4.2.1/dist/bundled/request.umd.min.js"></script>
+        <!-- ArcGIS REST JS used for user authentication. -->
+        <script src="https://unpkg.com/@esri/arcgis-rest-request@4.2.1/dist/bundled/request.umd.min.js"></script>
 
-    <!-- Calcite components used for authentication buttons. -->
-    <script type="module" src="https://js.arcgis.com/calcite-components/1.4.3/calcite.esm.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.4.3/calcite.css" />
-</head>
-<body>
+        <!-- Calcite components used for authentication buttons. -->
+        <script type="module" src="https://js.arcgis.com/calcite-components/1.4.3/calcite.esm.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.4.3/calcite.css" />
+        </head>
+        <body>
 
-    <div class="auth-box">
+        <div class="auth-box">
         <form class="auth-form">
-            <h2>Login</h2>
+            <img src="../img/pin_point_logo_transparent.png" alt="pint_point_logo" width="300" height="150">
             <div class="auth-buttons">
-                <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
-                <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
+            <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
+            <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
             </div>
         </form>
-    </div>
+        </div>
 
     <script>
         /* User authentication script */
