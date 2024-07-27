@@ -18,15 +18,13 @@
             background-color: #0070b3;
             color: #fff;
             padding: 10px;
-            text-align: right;
+            text-align: center;
         }
         .auth-buttons {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 250px;
-            height: auto;
-            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .hide {
             display: none;
@@ -42,8 +40,11 @@
 </head>
 <body>
     <div class="header">
-        <h1></h1>
-        <calcite-panel class="auth-buttons">
+        <h1>User Authentication</h1>
+    </div>
+
+    <div class="auth-buttons">
+        <calcite-panel>
             <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
             <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
         </calcite-panel>
