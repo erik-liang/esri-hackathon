@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<head>
-  <title>User authentication OAuth2.0 callback (ArcGIS REST JS)</title>
-</head>
-<body>
-  <script type="module">
-    import { ArcGISIdentityManager } from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@4.0.0';
+  <head>
+    <title>User authentication OAuth2.0 callback (ArcGIS REST JS)</title>
+  </head>
+  <body>
+    <script type="module">
+      import { ArcGISIdentityManager } from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@4.0.0';
 
-    // Your client ID from OAuth credentials
-    const clientId = 'L9a2VMjfxG80VOCl';
-    // The redirect URL registered in your OAuth credentials
-    const redirectUri = 'https://erik-liang.github.io/esri-hackathon/html/callback.html';
 
-    ArcGISIdentityManager.completeOAuth2({
-        clientId,
-        redirectUri
-    }).then(() => {
-        // Redirect the user to a new webpage
-        window.location.href = 'https://www.esri.com/en-us/home';
-    });
-  </script>
-</body>
+      // Your client ID from OAuth credentials
+      const clientId = 'L9a2VMjfxG80VOCl';
+      // The redirect URL registered in your OAuth credentials
+      const redirectUri = 'https://erik-liang.github.io/esri-hackathon/html/callback.html';
+
+
+      ArcGISIdentityManager.completeOAuth2({
+          clientId,
+          redirectUri
+      })
+    </script>
+  </body>
 </html>
