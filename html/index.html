@@ -1,144 +1,140 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>User authentication starter app (ArcGIS REST JS)</title>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>User authentication starter app (ArcGIS REST JS)</title>
 
-        <style>
-            html,body, #map {
-                width:100%;
-                height:100%;
-                padding:0;
-                margin:0;
-                background-color: #f3f3f3;
-                z-index:3;
-            }
-            .auth-buttons {
-                position:absolute;
-                top:5px;
-                left:5px;
-                width:250px;
-                height:auto;
-                z-index:5;
-            }
-            .hide { display:none }
-        </style>
+    <style>
+        html,body, #map {
+            width:100%;
+            height:100%;
+            padding:0;
+            margin:0;
+            background-color: #f3f3f3;
+            z-index:3;
+        }
+        .auth-buttons {
+            position:absolute;
+            top:5px;
+            left:5px;
+            width:250px;
+            height:auto;
+            z-index:5;
+        }
+        .hide {
+            display:none;
+        }
+    </style>
 
-        <!-- ArcGIS REST JS used for user authentication. -->
-        <script src="https://unpkg.com/@esri/arcgis-rest-request@4.2.1/dist/bundled/request.umd.min.js"></script>
+    <!-- ArcGIS REST JS used for user authentication. -->
+    <script src="https://unpkg.com/@esri/arcgis-rest-request@4.2.1/dist/bundled/request.umd.min.js"></script>
 
-        <!-- Calcite components used for authentication buttons. -->
-        <script type="module" src=https://js.arcgis.com/calcite-components/1.4.3/calcite.esm.js></script>
-        <link rel="stylesheet" type="text/css" href=https://js.arcgis.com/calcite-components/1.4.3/calcite.css />
+    <!-- Calcite components used for authentication buttons. -->
+    <script type="module" src="https://js.arcgis.com/calcite-components/1.4.3/calcite.esm.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.4.3/calcite.css" />
+</head>
+<body>
+    <calcite-panel class="auth-buttons">
+        <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
+        <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
+    </calcite-panel>
 
-    </head>
-    <body>
+    <script>
+        /* User authentication script */
 
-        <calcite-panel class="auth-buttons">
-            <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
-            <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
-        </calcite-panel>
+        const handleSignIn = async (initApp, destroyApp) => {
 
-        <script>
-            /* User authentication script */
+            // Your client ID from OAuth credentials
+            const clientId = 'L9a2VMjfxG80VOCl';
 
-            const handleSignIn = async (initApp, destroyApp) => {
+            // The redirect URL registered in your OAuth credentials
+            const redirectUri = 'https://erik-liang.github.io/esri-hackathon/html/callback.html';
 
-                // Your client ID from OAuth credentials
-                const clientId = 'L9a2VMjfxG80VOCl';
-                // The redirect URL registered in your OAuth credentials
-                const redirectUri = 'https://erik-liang.github.io/esri-hackathon/html/callback.html';
+            // Handle signed in and signed out app states
+            const updateAppState = (sessionInfo) => {
 
-                // Handle signed in and signed out app states
-                const updateAppState = (sessionInfo) => {
+                if (sessionInfo) {
 
-                    if (sessionInfo) {
+                    // Set user session in browser storage
+                    localStorage.setItem("__ARCGIS_REST_USER_SESSION__", JSON.stringify(sessionInfo));
 
-                        // Set user session in browser storage
-                        localStorage.setItem("__ARCGIS_REST_USER_SESSION__", JSON.stringify(sessionInfo));
+                    // Signed in button state
+                    signOutButton.innerHTML = `Sign out: ${sessionInfo.username}`;
+                    signOutButton.classList.remove('hide');
+                    signInButton.classList.add('hide');
 
-                        // Signed in button state
-                        signOutButton.innerHTML = `Sign out: ${sessionInfo.username}`;
-                        signOutButton.classList.remove('hide');
-                        signInButton.classList.add('hide');
-
-                        // Method called when user signs in
-                        initApp(sessionInfo);
-
-                    }
-
-                    else {
-
-                        // Clear user session
-                        localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
-
-                        // Signed out button state
-                        signOutButton.classList.add('hide');
-                        signInButton.classList.remove('hide');
-
-                        // Method called when user signs out
-                        destroyApp();
-
-                    }
+                    // Method called when user signs in
+                    initApp(sessionInfo);
 
                 }
 
-                // Sign in logic
-                const signInButton = document.getElementById('sign-in');
-                signInButton.addEventListener('click',()=>{
+                else {
 
-                    // Use ArcGIS REST JS to handle OAuth2.0 authentication
-                    arcgisRest.ArcGISIdentityManager.beginOAuth2({
-                        clientId: clientId,
-                        redirectUri: redirectUri,
-                        popup: true
-                    })
+                    // Clear user session
+                    localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
 
-                    .then((newSession) => {
+                    // Signed out button state
+                    signOutButton.classList.add('hide');
+                    signInButton.classList.remove('hide');
 
-                        updateAppState(newSession);
+                    // Method called when user signs out
+                    destroyApp();
 
-                    });
+                }
 
+            }
+
+            // Sign in logic
+            const signInButton = document.getElementById('sign-in');
+            signInButton.addEventListener('click', () => {
+
+                // Use ArcGIS REST JS to handle OAuth2.0 authentication
+                arcgisRest.ArcGISIdentityManager.beginOAuth2({
+                    clientId: clientId,
+                    redirectUri: redirectUri,
+                    popup: true
                 })
 
-                // Sign out logic
-                const signOutButton = document.getElementById('sign-out');
-                signOutButton.addEventListener('click', () => updateAppState(null));
+                .then((newSession) => {
+                    updateAppState(newSession);
+                });
 
-                // Check the browser's local storage for existing sessions
-                const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
+            })
 
-                if (serializedSession !== null && serializedSession !== "undefined") {
-                    const session = arcgisRest.ArcGISIdentityManager.deserialize(serializedSession);
-                    updateAppState(session);
-                }
+            // Sign out logic
+            const signOutButton = document.getElementById('sign-out');
+            signOutButton.addEventListener('click', () => updateAppState(null));
 
+            // Check the browser's local storage for existing sessions
+            const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
+
+            if (serializedSession !== null && serializedSession !== "undefined") {
+                const session = arcgisRest.ArcGISIdentityManager.deserialize(serializedSession);
+                updateAppState(session);
             }
 
-        </script>
+        }
 
-        <script>
-            /* Main script */
+    </script>
 
-            const initApp = (session) => {
-                console.log(`Successfully authenticated as ${session.username}.\nAccess token: ${session.token}`);
-                // This method is called after the user signs in. Write your main app logic here.
+    <script>
+        /* Main script */
 
-            }
+        const initApp = (session) => {
+            console.log(`Successfully authenticated as ${session.username}.\nAccess token: ${session.token}`);
+            // This method is called after the user signs in. Write your main app logic here.
+        }
 
-            const destroyApp = () => {
-                // This method is called after the user signs out
-                return;
-            }
+        const destroyApp = () => {
+            // This method is called after the user signs out
+            return;
+        }
 
-            // Handle user authentication
-            handleSignIn(initApp,destroyApp);
+        // Handle user authentication
+        handleSignIn(initApp, destroyApp);
 
-        </script>
+    </script>
 
-    </body>
-
+</body>
 </html>
