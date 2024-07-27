@@ -15,7 +15,7 @@
             z-index:3;
         }
         .header {
-            background-color: #333;
+            background-color: #0070b3;
             color: #fff;
             padding: 10px;
             text-align: right;
@@ -43,13 +43,12 @@
 </head>
 <body>
     <div class="header">
-        <h1>Your Website Title</h1>
+        <h1></h1>
+        <calcite-panel class="auth-buttons">
+            <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
+            <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
+        </calcite-panel>
     </div>
-
-    <calcite-panel class="auth-buttons">
-        <calcite-button id="sign-in">Sign in with ArcGIS</calcite-button>
-        <calcite-button id="sign-out" class="hide" appearance="outline-fill">Sign out</calcite-button>
-    </calcite-panel>
 
     <script>
         /* User authentication script */
