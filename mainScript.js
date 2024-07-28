@@ -274,6 +274,7 @@
             <div class="filter-item" data-years="all">All</div>
         `;
         filterDiv.style.padding = "10px";
+        filterDiv.style.cursor = "pointer"; // Ensure the pointer cursor shows
     
         // Add the Filter div to an Expand widget
         const filterExpand = new Expand({
@@ -283,19 +284,28 @@
             expandTooltip: "Filter Features"
         });
     
-        // Add the Filter Expand widget to the top right corner of the view
         view.ui.add(filterExpand, {
             position: "top-right"
         });
     
         // Handle filter change
-        document.getElementById("years-worked-filter").addEventListener("click", (event) => {
+        filterDiv.addEventListener("click", (event) => {
             const selectedYears = event.target.getAttribute("data-years");
-            if (selectedYears === "all") {
-                myPointsFeatureLayer.definitionExpression = "";
-            } else {
-                myPointsFeatureLayer.definitionExpression = `Years_Worked = ${selectedYears}`;
+            if (selectedYears) {
+                if (selectedYears === "all") {
+                    myPointsFeatureLayer.definitionExpression = "";
+                } else {
+                    myPointsFeatureLayer.definitionExpression = `Years_Worked = ${selectedYears}`;
+                }
             }
         });
+    
+        // Clear the filter when the Expand widget is collapsed
+        reactiveUtils.when(
+            () => !filterExpand.expanded,
+            () => {
+                myPointsFeatureLayer.definitionExpression = "";
+            }
+        );
     });
     
