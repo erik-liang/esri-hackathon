@@ -68,6 +68,9 @@
 
         <!-- ArcGIS REST JS used for user authentication. -->
         <script src="https://unpkg.com/@esri/arcgis-rest-request@4.2.1/dist/bundled/request.umd.min.js"></script>
+       
+        <!-- Login Config to store user info-->
+        <script src="config.js"></script>
 
         <!-- Calcite components used for authentication buttons. -->
         <script type="module" src="https://js.arcgis.com/calcite-components/1.4.3/calcite.esm.js"></script>
@@ -166,11 +169,15 @@
 
     <script>
         /* Main script */
+        import "../js/config.js";
 
         const initApp = (session) => {
             console.log(`Successfully authenticated as ${session.username}.\nAccess token: ${session.token}`);
             // This method is called after the user signs in. Write your main app logic here.
             
+            // store the user login
+            setSessionVariables(session.username, session.token);
+
             // Redirect the user to a new webpage
             window.location.href = 'https://nshivakumar6.github.io/GeoExplorers/webapp.html';
         }
