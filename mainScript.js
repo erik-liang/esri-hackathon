@@ -178,16 +178,17 @@
         editor.viewModel.cancelWorkflow();
         });
 
-        // Create a div for filtering by amenity category
+        // Create a div for filtering by years worked
         const filterDiv = document.createElement("div");
-        filterDiv.id = "amenity-filter";
+        filterDiv.id = "years-worked-filter";
         filterDiv.className = "esri-widget";
         filterDiv.innerHTML = `
-        <div class="filter-item" data-category="">All</div>
-        <div class="filter-item" data-category="Park">Park</div>
-        <div class="filter-item" data-category="School">School</div>
-        <div class="filter-item" data-category="Hospital">Hospital</div>
-        <!-- Add more categories as needed -->
+        <div class="filter-item" data-years="1">1 Year</div>
+        <div class="filter-item" data-years="2">2 Years</div>
+        <div class="filter-item" data-years="3">3 Years</div>
+        <div class="filter-item" data-years="4">4 Years</div>
+        <div class="filter-item" data-years="5">5 Years</div>
+        <div class="filter-item" data-years="all">All</div>
         `;
         filterDiv.style.padding = "10px";
 
@@ -205,13 +206,14 @@
         });
 
         // Handle filter change
-        document.getElementById("amenity-filter").addEventListener("click", (event) => {
-        const selectedCategory = event.target.getAttribute("data-category");
-        if (selectedCategory) {
-        myPointsFeatureLayer.definitionExpression = selectedCategory ? `amenity_category = '${selectedCategory}'` : "";
-        }
+        document.getElementById("years-worked-filter").addEventListener("click", (event) => {
+                const selectedYears = event.target.getAttribute("data-years");
+                if (selectedYears === "all") {
+                myPointsFeatureLayer.definitionExpression = "";
+                } else {
+                myPointsFeatureLayer.definitionExpression = `Years_Worked = ${selectedYears}`;
+                }
         });
-
         // Clear the filter when the Expand widget is collapsed
         reactiveUtils.when(
         () => !filterExpand.expanded,
