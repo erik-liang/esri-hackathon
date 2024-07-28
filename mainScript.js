@@ -13,16 +13,16 @@
         "esri/smartMapping/labels/clusters",
         "esri/smartMapping/popup/clusters",
         "esri/WebMap"
-    ], function(esriConfig, Map, MapView, FeatureLayer, Editor, Expand, Search, reactiveUtils, AttachmentsContent, TextContent, Legend, clusterLabelCreator, clusterPopupCreator, WebMap) {
-    
+      ], function(esriConfig, Map, MapView, FeatureLayer, Editor, Expand, Search, reactiveUtils, AttachmentsContent, TextContent, Legend, clusterLabelCreator, clusterPopupCreator, WebMap) {
+      
         // Function to create rating content
         function ratingContent(feature) {
             const attachmentsElement = new AttachmentsContent({
                 displayType: "list"
             });
-    
+      
             const textElement = new TextContent();
-    
+      
             const rating = feature.graphic.attributes.Rating;
             let color;
             if (rating >= 4) {
@@ -48,10 +48,10 @@
                     </p>
                   </div>
             `;
-    
+      
             return [textElement, attachmentsElement];
         }
-    
+      
         // Reference a feature layer to edit
         const myPointsFeatureLayer = new FeatureLayer({
             url: "https://services8.arcgis.com/LLNIdHmmdjO2qQ5q/arcgis/rest/services/AddTableRelation/FeatureServer",
@@ -64,7 +64,7 @@
                 ],
             }
         });
-    
+      
         myPointsFeatureLayer.renderer = {
             type: "unique-value",
             field: "category",
@@ -102,7 +102,7 @@
                         { value: 1000, opacity: 0.90 }]
             }]
         };
-    
+      
         myPointsFeatureLayer
             .when()
             .then(generateClusterConfig)
@@ -112,15 +112,15 @@
             .catch((error) => {
                 console.error(error);
             });
-    
+      
         esriConfig.apiKey = "AAPKfc2bb44eed604a8fb65dfb72c87516b3YdztxXfTJmkRU-XaiQRV8hKNAwckTew2BfIFlC5mXBd-biav5bHtihYv178cmpyr";
-    
+      
         const webmap = new WebMap({
             portalItem: {
                 id: "7caa937b7f954575bb046c5ec5cc2a0c"
             }
         });
-    
+      
         const view = new MapView({
             container: "viewDiv",
             map: webmap,
@@ -135,7 +135,7 @@
                 }
             },
         });
-    
+      
         view.ui.add(
             new Expand({
                 content: new Legend({ view }),
@@ -143,38 +143,38 @@
             }),
             "top-left"
         );
-    
+      
         const searchWidget = new Search({
             view: view
         });
-    
+      
         const searchExpand = new Expand({
             view: view,
             content: searchWidget,
             expandIconClass: "esri-icon-search",
             expandTooltip: "Search"
         });
-    
+      
         view.ui.add(searchExpand, {
             position: "top-right"
         });
-    
+      
         const addFeatureEditor = new Editor({
             view: view,
             icon: "plus"
         });
-    
+      
         const addFeatureExpand = new Expand({
             view: view,
             content: addFeatureEditor,
             expandTooltip: "Add Feature"
         });
-    
+      
         view.ui.add([addFeatureExpand, searchExpand], {
             position: "top-right",
             index: 0
         });
-    
+      
         const editor = new Editor({
             view: view,
             layerInfos: [{
@@ -187,14 +187,14 @@
                 }
             }]
         });
-    
+      
         function editThis() {
             if (!editor.activeWorkflow) {
                 view.popup.visible = false;
                 editor.startUpdateWorkflowAtFeatureEdit(view.popup.selectedFeature);
                 view.ui.add(editor, "top-right");
             }
-    
+      
             reactiveUtils.when(
                 () => editor.viewModel.state === "ready",
                 () => {
@@ -206,7 +206,7 @@
                 }
             );
         }
-    
+      
         reactiveUtils.on(
             () => view.popup,
             "trigger-action",
@@ -216,7 +216,7 @@
                 }
             }
         );
-    
+      
         reactiveUtils.watch(
             () => view.popup?.visible,
             (event) => {
@@ -227,7 +227,7 @@
                 }
             }
         );
-    
+      
         myPointsFeatureLayer.on("apply-edits", () => {
             view.ui.remove(editor);
             features.forEach((feature) => {
@@ -240,19 +240,19 @@
             }
             editor.viewModel.cancelWorkflow();
         });
-    
+      
         async function generateClusterConfig(layer) {
             const popupTemplate = await clusterPopupCreator
                 .getTemplates({ layer })
                 .then((popupTemplateResponse) => popupTemplateResponse.primaryTemplate.value);
-    
+      
             const { labelingInfo, clusterMinSize } = await clusterLabelCreator
                 .getLabelSchemes({
                     layer,
                     view
                 })
                 .then((labelSchemes) => labelSchemes.primaryScheme);
-    
+      
             return {
                 type: "cluster",
                 popupTemplate,
@@ -260,7 +260,7 @@
                 clusterMinSize
             };
         }
-    
+      
         // Create a div for filtering by Years_Worked
         const filterDiv = document.createElement("div");
         filterDiv.id = "years-worked-filter";
@@ -275,7 +275,7 @@
         `;
         filterDiv.style.padding = "10px";
         filterDiv.style.cursor = "pointer"; // Ensure the pointer cursor shows
-    
+      
         // Add the Filter div to an Expand widget
         const filterExpand = new Expand({
             view: view,
@@ -283,11 +283,11 @@
             expandIconClass: "esri-icon-filter",
             expandTooltip: "Filter Features"
         });
-    
+      
         view.ui.add(filterExpand, {
             position: "top-right"
         });
-    
+      
         // Handle filter change
         filterDiv.addEventListener("click", (event) => {
             const selectedYears = event.target.getAttribute("data-years");
@@ -299,7 +299,7 @@
                 }
             }
         });
-    
+      
         // Clear the filter when the Expand widget is collapsed
         reactiveUtils.when(
             () => !filterExpand.expanded,
@@ -307,5 +307,5 @@
                 myPointsFeatureLayer.definitionExpression = "";
             }
         );
-    });
-    
+      });
+      

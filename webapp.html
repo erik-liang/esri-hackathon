@@ -3,14 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>ArcGIS JavaScript Tutorials: Edit feature data</title>
+    <title>PinPoint Reviews</title>
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
     <style>
         html, body, #viewDiv {
             padding: 0;
             margin: 0;
-            height: 99%;
+            height: 100%;
             width: 100%;
         }
+
 
         .header-container {
             display: flex;
@@ -24,7 +26,7 @@
 
         .header-image {
             cursor: pointer;
-            width: 200px;
+            width: 100px;
             height: auto;
             margin-right: 15px;
         }
@@ -59,6 +61,24 @@
         .header-buttons {
             margin-left: auto;
         }
+
+        #info {
+            background-color: white;
+            width: 250px;
+            padding: 15px;
+            text-align: center; /* Center the text */
+          
+            font-size: 20px; /* Adjust the font size */
+            line-height: 1.2; /* Improve readability with line height */
+            border-radius: 8px; /* Add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        }
+        .header-image-small {
+            cursor: pointer;
+            width: 40px; /* Smaller size for the second image */
+            height: auto;
+            margin-right: 15px;
+        }
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.30/"></script>
@@ -69,36 +89,17 @@
 <body>
     <div slot="header" class="header-container">
         <img src="img/Logo Break - Combined PinPoint-Photoroom.png" class="header-image" id="logo_icon">
-        <div class="header-buttons">
-            <calcite-button id="sign-out" appearance="outline-fill">Sign out</calcite-button>
-        </div>
+        <img src="img/Map Upscaled.png" class="header-image-small" id="logo_icon">
+
     </div>
     <div id="viewDiv"></div>
 
-    <script>
-        // Function to handle sign out
-        const handleSignOut = () => {
-            // Clear user session from local storage
-            localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
-
-
-            // Redirect to login page
-            window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
-        };
-
-        // Add event listener to the sign-out button
-        document.getElementById('sign-out').addEventListener('click', handleSignOut);
-
-        // Check if user is authenticated
-        const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
-        if (serializedSession === null || serializedSession === "undefined") {
-            // Redirect to login page if not authenticated
-            window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
-        } else {
-            const session = JSON.parse(serializedSession);
-            console.log(`User is authenticated as ${session.username}`);
-        }
-        
+    <script src="mainScript.js">
     </script>
+    <div id="info" class="esri-widget">
+        <h3>Select a feature to view the reviews from Esri employees!</h3>
+        <h5>Add a review, find nearest reviewed locations, and filter reviews by employee experience.</h5>
+    </div>
 </body>
+
 </html>
