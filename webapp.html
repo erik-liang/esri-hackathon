@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ArcGIS JavaScript Tutorials: Edit feature data</title>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 99%;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header-image {
+            cursor: pointer;
+            width: 200px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            font-size: 36pt;
+            font-weight: bold;
+            color: #050F40;
+            margin: 0;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .filter-button {
+            margin: 0 5px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #0070b3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .header-buttons {
+            margin-left: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.30/"></script>
+    <script type="module" src="https://js.arcgis.com/calcite-components/1.4.3/calcite.esm.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.4.3/calcite.css" />
+    <script src="mainScript.js"></script>
+</head>
+<body>
+    <div slot="header" class="header-container">
+        <img src="img/Logo Break - Combined PinPoint-Photoroom.png" class="header-image" id="logo_icon">
+        <div class="header-buttons">
+            <calcite-button id="sign-out" appearance="outline-fill">Sign out</calcite-button>
+        </div>
+    </div>
+    <div id="viewDiv"></div>
+
+    <script>
+        // Function to handle sign out
+        const handleSignOut = () => {
+            // Clear user session from local storage
+            localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
+
+
+            // Redirect to login page
+            window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
+        };
+
+        // Add event listener to the sign-out button
+        document.getElementById('sign-out').addEventListener('click', handleSignOut);
+
+        // Check if user is authenticated
+        const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
+        if (serializedSession === null || serializedSession === "undefined") {
+            // Redirect to login page if not authenticated
+            window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
+        } else {
+            const session = JSON.parse(serializedSession);
+            console.log(`User is authenticated as ${session.username}`);
+        }
+        
+    </script>
+</body>
+</html>
