@@ -90,16 +90,41 @@
     <div slot="header" class="header-container">
         <img src="img/Logo Break - Combined PinPoint-Photoroom.png" class="header-image" id="logo_icon">
         <img src="img/Map Upscaled.png" class="header-image-small" id="logo_icon">
-
+        <div class="header-buttons">
+            <calcite-button id="sign-out" appearance="outline-fill">Sign out</calcite-button>
+        </div>
     </div>
     <div id="viewDiv"></div>
 
-    <script src="mainScript.js">
-    </script>
     <div id="info" class="esri-widget">
         <h3>Select a feature to view the reviews from Esri employees!</h3>
         <h5>Add a review, find nearest reviewed locations, and filter reviews by employee experience.</h5>
     </div>
+
+    <script>
+        // Function to handle sign out
+        const handleSignOut = () => {
+            // Clear user session from local storage
+            localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
+
+            // Redirect to login page
+            window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
+        };
+
+        // Add event listener to the sign-out button
+        document.getElementById('sign-out').addEventListener('click', handleSignOut);
+
+        // Check if user is authenticated
+        const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
+        if (serializedSession === null || serializedSession === "undefined") {
+            // Redirect to login page if not authenticated
+            window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
+        } else {
+            const session = JSON.parse(serializedSession);
+            console.log(`User is authenticated as ${session.username}`);
+        }
+    </script>
+    
 </body>
 
 </html>
