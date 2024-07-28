@@ -36,6 +36,26 @@
             margin: 0;
         }
 
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .filter-button {
+            margin: 0 5px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #0070b3;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
         .header-buttons {
             margin-left: auto;
         }
@@ -53,6 +73,14 @@
             <calcite-button id="sign-out" appearance="outline-fill">Sign out</calcite-button>
         </div>
     </div>
+    <div class="filter-container">
+        <button class="filter-button" data-years="1">1 Year</button>
+        <button class="filter-button" data-years="2">2 Years</button>
+        <button class="filter-button" data-years="3">3 Years</button>
+        <button class="filter-button" data-years="4">4 Years</button>
+        <button class="filter-button" data-years="5">5 Years</button>
+        <button class="filter-button" data-years="all">All</button>
+    </div>
     <div id="viewDiv"></div>
 
     <script>
@@ -61,7 +89,7 @@
             // Clear user session from local storage
             localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
 
-            
+
             // Redirect to login page
             window.location.href = 'https://erik-liang.github.io/esri-hackathon/html/index.html';
         };
@@ -78,6 +106,19 @@
             const session = JSON.parse(serializedSession);
             console.log(`User is authenticated as ${session.username}`);
         }
+         // Function to filter features by years worked
+         function filterByYears(event) {
+            const selectedYears = event.target.getAttribute("data-years");
+            if (selectedYears === "all") {
+                myPointsFeatureLayer.definitionExpression = "";
+            } else {
+                myPointsFeatureLayer.definitionExpression = `Years_Worked = ${selectedYears}`;
+            }
+        }
+        // Add event listeners to filter buttons
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', filterByYears);
+        });
     </script>
 </body>
 </html>
