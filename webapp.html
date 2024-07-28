@@ -98,19 +98,7 @@
             const session = JSON.parse(serializedSession);
             console.log(`User is authenticated as ${session.username}`);
         }
-         // Function to filter features by years worked
-         function filterByYears(event) {
-            const selectedYears = event.target.getAttribute("data-years");
-            if (selectedYears === "all") {
-                myPointsFeatureLayer.definitionExpression = "";
-            } else {
-                myPointsFeatureLayer.definitionExpression = `Years_Worked = ${selectedYears}`;
-            }
-        }
-        // Add event listeners to filter buttons
-        document.querySelectorAll('.filter-button').forEach(button => {
-            button.addEventListener('click', filterByYears);
-        });
+        
     </script>
 </body>
 </html>
