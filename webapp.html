@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ArcGIS JavaScript Tutorials: Edit feature data</title>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 99%;
+            width: 100%;
+        }
+
+        #titleDiv {
+            padding: 10px;
+        }
+
+        #titleText {
+            font-size: 20pt;
+            font-weight: 60;
+            padding-bottom: 10px;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header-image {
+            cursor: pointer;
+            width: 200px; /* Increase the width */
+            height: auto;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            font-size: 36pt; /* Increase the font size */
+            font-weight: bold;
+            color: #050F40;
+            margin: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.30/"></script>
+    <script src="mainScript.js" ></script>
+</head>
+<body>
+    <div slot="header" class="header-container">
+        <img src="img\Logo Break - Combined PinPoint-Photoroom.png" class="header-image" id="logo_icon">
+    </div>
+    <div id="viewDiv"></div>
+
+</body>
+</html>
